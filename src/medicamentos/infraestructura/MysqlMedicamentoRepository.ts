@@ -55,11 +55,24 @@ export class MysqlMedicamentoRepository implements MedicamentoRepository {
     const patron = `%${texto ?? ""}%`;
     const parametros = texto ? [patron, patron, patron, limite] : [limite];
 
+    // openFDA trae una fila por presentación/fabricante, así que el mismo fármaco
+    // (p. ej. Albuterol Sulfate) aparece muchas veces. Para estudiar solo queremos
+    // el fármaco UNA vez, así que deduplicamos por su identidad —el nombre genérico,
+    // o el de marca si no hay genérico— y de cada grupo tomamos la fila de menor id
+    // como representante. La deduplicación va DENTRO del subconsulta para que el
+    // LIMIT cuente fármacos distintos, no filas repetidas.
     const [filas] = await this.pool.query<FilaMedicamento[]>(
       `SELECT id, openfda_set_id, nombre_marca, nombre_generico,
               principio_activo, fabricante
          FROM medicamento
-         ${condicion}
+        WHERE id IN (
+          SELECT id FROM (
+            SELECT MIN(id) AS id
+              FROM medicamento
+              ${condicion}
+             GROUP BY LOWER(COALESCE(nombre_generico, nombre_marca, CAST(id AS CHAR)))
+          ) AS representantes
+        )
         ORDER BY COALESCE(nombre_marca, nombre_generico)
         LIMIT ?`,
       parametros,

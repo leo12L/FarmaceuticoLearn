@@ -101,8 +101,9 @@ CREATE TABLE pregunta (
   id             BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   ronda_id       BIGINT UNSIGNED NOT NULL,
   medicamento_id BIGINT UNSIGNED NOT NULL,
-  atributo       ENUM('indicaciones','contraindicaciones','dosis',
-                      'principio_activo','efectos_adversos') NOT NULL,
+  -- Qué se pregunta sobre el fármaco. La columna conserva el nombre histórico
+  -- `atributo`, pero hoy son tipos de pregunta, no secciones del prospecto.
+  atributo       ENUM('grupo_terapeutico','principio_activo') NOT NULL,
   enunciado      TEXT NOT NULL,
   orden          SMALLINT UNSIGNED NOT NULL,
 

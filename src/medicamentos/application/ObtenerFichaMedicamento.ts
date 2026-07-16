@@ -11,8 +11,12 @@ export class ObtenerFichaMedicamento {
   ) {}
 
   async run(id: number, idioma: Idioma = "es"): Promise<Ficha | null> {
-    const ficha = await this.repositorio.obtenerFicha(id);
-    if (ficha === null) return null;
+    const completa = await this.repositorio.obtenerFicha(id);
+    if (completa === null) return null;
+
+    // Se recorta antes de traducir: lo que no se muestra, no se traduce, y por
+    // tanto no consume cuota. El texto íntegro sigue en la base de datos.
+    const ficha = completa.resumida();
 
     // La ficha viene de openFDA, o sea en inglés. Si alguien la pide en inglés,
     // no hay nada que traducir ni que pagar.

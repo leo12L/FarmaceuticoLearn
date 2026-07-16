@@ -1,24 +1,68 @@
 @import "tailwindcss";
 
+/*
+  Sistema de diseño FarmaEdu: clínico, confiable, con acento azul marino y verde.
+  Todo color, radio y sombra sale de aquí. Ninguna pantalla inventa valores
+  sueltos, que es como una interfaz acaba con siete azules distintos.
+*/
+
+/*
+  Tema claro fijo: el diseño de FarmaEdu es una interfaz clara. No seguimos el
+  `prefers-color-scheme` del sistema a propósito, para que los colores coincidan
+  siempre con el mockup (si no, un usuario con el SO en oscuro vería otra cosa).
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --canvas: #eef2fb; /* fondo de la página, azul lavanda muy claro */
+  --surface: #ffffff; /* tarjetas */
+  --border: #dbe3f1;
+  --border-fuerte: #c4d0e4;
+  --ink: #0f1b34; /* texto principal, azul marino oscuro */
+  --ink-suave: #47566f; /* texto secundario */
+  --ink-tenue: #8492a8; /* metadatos */
+  --marca: #1e3a8a; /* azul marino: botones primarios, marca */
+  --marca-oscura: #16306e; /* hover de marca */
+  --marca-brillante: #2563eb; /* azul vivo: enlaces, estado activo, selección */
+  --marca-tenue: #e8f0ff; /* tinte azul claro: fondos y cajas de selección */
+  --exito: #0e9f6e; /* verde: botón de dosis, XP */
+  --exito-oscura: #0b815a;
+  --exito-tenue: #d6f3e6;
+  --error: #dc2626;
+  --error-tenue: #fee2e2;
+  --oro: #f4b740; /* medallas */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-}
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-borde: var(--border);
+  --color-borde-fuerte: var(--border-fuerte);
+  --color-ink: var(--ink);
+  --color-ink-suave: var(--ink-suave);
+  --color-ink-tenue: var(--ink-tenue);
+  --color-marca: var(--marca);
+  --color-marca-oscura: var(--marca-oscura);
+  --color-marca-brillante: var(--marca-brillante);
+  --color-marca-tenue: var(--marca-tenue);
+  --color-exito: var(--exito);
+  --color-exito-oscura: var(--exito-oscura);
+  --color-exito-tenue: var(--exito-tenue);
+  --color-error: var(--error);
+  --color-error-tenue: var(--error-tenue);
+  --color-oro: var(--oro);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --radius-tarjeta: 0.875rem;
+
+  --shadow-suave: 0 1px 2px rgb(15 27 52 / 0.04), 0 1px 3px rgb(15 27 52 / 0.06);
+  --shadow-elevada: 0 4px 6px -1px rgb(15 27 52 / 0.08), 0 2px 4px -2px rgb(15 27 52 / 0.05);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--canvas);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Los prospectos y las cifras (puntos, timer, niveles) se leen mejor alineados. */
+.tabular {
+  font-variant-numeric: tabular-nums;
 }
